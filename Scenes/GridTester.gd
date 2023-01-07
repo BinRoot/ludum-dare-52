@@ -8,21 +8,25 @@ onready var money_label : Label = $Camera2D/Control/Money
 
 func _ready():
 	grid.num_units = 1
-	update_camera()
+	update_camera(true)
 
-func update_camera():
+func update_camera(is_instant = false):
 	var new_zoom = Vector2.ONE * max(
 		grid.size.x / get_viewport().size.x, 
 		grid.size.y / get_viewport().size.y
 	) * 1.2
 	var new_position = grid.size / 2
-	camera_tween.interpolate_property(camera, "position",
-		camera.position, new_position, 1,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	camera_tween.interpolate_property(camera, "zoom",
-		camera.zoom, new_zoom, 1,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	camera_tween.start()
+	if is_instant:
+		camera.position = new_position
+		camera.zoom = new_zoom
+	else:
+		camera_tween.interpolate_property(camera, "position",
+			camera.position, new_position, 1,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		camera_tween.interpolate_property(camera, "zoom",
+			camera.zoom, new_zoom, 1,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		camera_tween.start()
 	money_label.rect_position.x = -1 * money_label.rect_size.x / 2
 	money_label.rect_position.y = new_position.y + 5
 	money_label.get("custom_fonts/font").size = new_zoom.x * 30
