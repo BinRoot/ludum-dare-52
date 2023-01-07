@@ -12,7 +12,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func set_size(new_size):
+func set_size(_new_size):
 	push_warning("cannot set Prisoner size")
 	
 func get_size():

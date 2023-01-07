@@ -1,14 +1,21 @@
 extends Node2D
 
+signal on_timeout
+
 onready var grid = $Grid
 onready var camera = $Camera2D
 onready var camera_tween = $CameraTween
-var money : int = 100
 onready var money_label : Label = $Camera2D/Control/Money
+onready var time_left_label : Label = $Camera2D/Control/TimeLeft
+
+var time_left = 60
 
 func _ready():
 	grid.num_units = 1
 	update_camera(true)
+
+func init():
+	time_left = 60
 
 func update_camera(is_instant = false):
 	var new_zoom = Vector2.ONE * max(
@@ -27,8 +34,15 @@ func update_camera(is_instant = false):
 			camera.zoom, new_zoom, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		camera_tween.start()
-	money_label.rect_position.x = -1 * money_label.rect_size.x / 2
-	money_label.rect_position.y = new_position.y + 5
+	time_left_label.rect_position = Vector2(
+		-1 * time_left_label.rect_size.x / 2,
+		-new_position.y
+	)
+	time_left_label.get("custom_fonts/font").size = new_zoom.x * 30
+	money_label.rect_position = Vector2(
+		-1 * money_label.rect_size.x / 2,
+		new_position.y + 5
+	)
 	money_label.get("custom_fonts/font").size = new_zoom.x * 30
 	
 
@@ -42,18 +56,24 @@ func _input(event):
 func buy_unit():
 	grid.increment_num_units()
 	update_camera()
-	money -= 200
+	Globals.money -= 200
 
 func _process(delta):
-	money_label.text = "${0}".format([money])
-
+	money_label.text = "${0}".format([Globals.money])
+	time_left_label.text = "{0}".format([time_left])
 
 func _on_Grid_on_harvest(value):
-	money += value
+	Globals.money += value
 
 func _on_Grid_on_feed():
-	money -= 10
+	Globals.money -= 10
 
 
 func _on_Grid_on_purchased(value):
-	money -= value
+	Globals.money -= value
+
+
+func _on_DayCountDown_timeout():
+	time_left -= 1
+	if time_left <= 0:
+		emit_signal("on_timeout")

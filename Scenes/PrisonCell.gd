@@ -7,7 +7,7 @@ onready var img : TextureRect = $TextureRect
 func _ready():
 	pass # Replace with function body.
 
-func set_size(new_size):
+func set_size(_new_size):
 	push_warning("cannot set PrisonCell size")
 	
 func get_size():

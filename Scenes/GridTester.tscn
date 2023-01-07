@@ -1,15 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/GridTester.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Grid.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-size = 40
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-extra_spacing_char = 2
-font_data = ExtResource( 3 )
+[ext_resource path="res://Resources/UIFont1.tres" type="DynamicFont" id=3]
 
 [node name="GridTester" type="Node2D"]
 script = ExtResource( 1 )
@@ -30,10 +23,20 @@ mouse_filter = 2
 margin_bottom = 41.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+
+[node name="TimeLeft" type="Label" parent="Camera2D/Control"]
+margin_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 3 )
 
 [node name="CameraTween" type="Tween" parent="."]
+
+[node name="DayCountDown" type="Timer" parent="."]
+autostart = true
 
 [connection signal="on_feed" from="Grid" to="." method="_on_Grid_on_feed"]
 [connection signal="on_harvest" from="Grid" to="." method="_on_Grid_on_harvest"]
 [connection signal="on_purchased" from="Grid" to="." method="_on_Grid_on_purchased"]
+[connection signal="timeout" from="DayCountDown" to="." method="_on_DayCountDown_timeout"]
