@@ -1,12 +1,11 @@
 extends Node
 
-var money = 100
+var money : int = 100
+var cost_replenish : int = 50
+var cost_feed : int = 5
+var cost_grid_unit : int = 200
+var init_time_left : int = 60
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

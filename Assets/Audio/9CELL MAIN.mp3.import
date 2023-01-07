@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/9CELL MAIN.mp3-9d15e52665bce7edbf44ef08d850d9fb.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/9CELL MAIN.mp3"
+dest_files=[ "res://.import/9CELL MAIN.mp3-9d15e52665bce7edbf44ef08d850d9fb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

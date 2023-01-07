@@ -25,11 +25,11 @@ onready var name_label = $Control/ProgressBar/NameLabel
 onready var clean_button = $Control/CleanButton
 var rng = RandomNumberGenerator.new()
 var current_state = State.OCCUPIED
-var cell_purchase_price : int = 60
+
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
 	"Gulb", "Eithing", "Crumptop", "Joera", "Vixta", "Yindig", "Ripertha",
-	"Bigs", "Smol", "Rink", "Oppa", "Rinta"]
+	"Bigs", "Smol", "Rink", "Oppa", "Rinta", "Lint"]
 var unit_name : String
 
 func _ready():
@@ -41,8 +41,9 @@ func harvest():
 	current_state = State.VACANT
 	
 func feed():
-	emit_signal("on_feed")
-	health = min(100, health + 20)
+	if Globals.money >= Globals.cost_feed:
+		emit_signal("on_feed")
+		health = min(100, health + 20)
 	
 func update_poop():
 	poop1.visible = false
@@ -66,7 +67,7 @@ func _process(delta):
 	clean_button.visible = current_state == State.OCCUPIED
 	harvest_button.visible = current_state == State.OCCUPIED and health > 75
 	buy_button.visible = current_state == State.VACANT
-	buy_button.text = "Buy (${0})".format([cell_purchase_price])
+	buy_button.text = "Buy (${0})".format([Globals.cost_replenish])
 	prisoner.position = prison_cell.size / 2 - prisoner.size / 2
 	if current_state == State.OCCUPIED:
 		update_poop()
@@ -113,9 +114,9 @@ func reset():
 
 
 func _on_BuyButton_pressed():
-	# TODO: check purchase price is possible first
-	emit_signal("on_purchased", cell_purchase_price)
-	reset()
+	if Globals.money >= Globals.cost_replenish:
+		emit_signal("on_purchased", Globals.cost_replenish)
+		reset()
 
 
 func _on_PoopTimer_timeout():

@@ -8,14 +8,14 @@ onready var camera_tween = $CameraTween
 onready var money_label : Label = $Camera2D/Control/Money
 onready var time_left_label : Label = $Camera2D/Control/TimeLeft
 
-var time_left = 60
+var time_left = Globals.init_time_left
 
 func _ready():
 	grid.num_units = 1
 	update_camera(true)
 
 func init():
-	time_left = 60
+	time_left = Globals.init_time_left
 
 func update_camera(is_instant = false):
 	var new_zoom = Vector2.ONE * max(
@@ -54,9 +54,10 @@ func _input(event):
 		update_camera()
 
 func buy_unit():
-	grid.increment_num_units()
-	update_camera()
-	Globals.money -= 200
+	if Globals.money >= Globals.cost_grid_unit:
+		grid.increment_num_units()
+		update_camera()
+		Globals.money -= Globals.cost_grid_unit
 
 func _process(delta):
 	money_label.text = "${0}".format([Globals.money])
@@ -66,7 +67,7 @@ func _on_Grid_on_harvest(value):
 	Globals.money += value
 
 func _on_Grid_on_feed():
-	Globals.money -= 10
+	Globals.money -= Globals.cost_feed
 
 
 func _on_Grid_on_purchased(value):

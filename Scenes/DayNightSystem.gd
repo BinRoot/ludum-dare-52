@@ -12,7 +12,7 @@ var current_state = State.Work
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,6 +22,7 @@ func _process(delta):
 		grid_tester.camera.current = true
 		home.visible = false
 		home.camera.current = false
+		
 	elif current_state == State.Home:
 		grid_tester.visible = false
 		grid_tester.camera.current = false
@@ -30,7 +31,6 @@ func _process(delta):
 
 func _on_GridTester_on_timeout():
 	current_state = State.Home
-
 
 func _on_Home_on_exit():
 	current_state = State.Work

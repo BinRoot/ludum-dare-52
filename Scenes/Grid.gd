@@ -9,9 +9,11 @@ var size : Vector2 = Vector2.ZERO setget set_size, get_size
 onready var grid_unit_holder = $GridUnitHolder
 var grid_unit_scene = preload("res://Scenes/GridUnit.tscn")
 var gap_between_grids = 10
+onready var main_loop : AudioStreamPlayer = $MainLoop
+onready var opening_loop : AudioStreamPlayer = $OpeningLoop
 
 func _ready():
-	pass
+	opening_loop.play()
 
 func _process(delta):
 	pass
@@ -52,6 +54,9 @@ func increment_num_units():
 	set_num_units(num_units + 1)
 
 func set_num_units(new_num_units):
+	if new_num_units > 1:
+		opening_loop.stop()
+		main_loop.play()
 	if new_num_units == num_units + 1:
 		add_grid_unit(new_num_units - 1)
 	elif new_num_units == num_units - 1:
