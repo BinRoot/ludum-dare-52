@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Family Song.mp3-477cb7981f58d0faf2b66a107f9906e4.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Family Song.mp3"
+dest_files=[ "res://.import/Family Song.mp3-477cb7981f58d0faf2b66a107f9906e4.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

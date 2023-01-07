@@ -41,6 +41,14 @@ func _on_feed():
 func _on_purchased(value):
 	emit_signal("on_purchased", value)
 
+func resume_audio():
+	if num_units > 1:
+		opening_loop.stop()
+		main_loop.play()
+	else:
+		opening_loop.play()
+		main_loop.stop()
+
 func add_grid_unit(i):
 	var grid_unit_inst = grid_unit_scene.instance()
 	grid_unit_holder.add_child(grid_unit_inst)
@@ -54,9 +62,6 @@ func increment_num_units():
 	set_num_units(num_units + 1)
 
 func set_num_units(new_num_units):
-	if new_num_units > 1:
-		opening_loop.stop()
-		main_loop.play()
 	if new_num_units == num_units + 1:
 		add_grid_unit(new_num_units - 1)
 	elif new_num_units == num_units - 1:
@@ -69,3 +74,4 @@ func set_num_units(new_num_units):
 		for i in range(new_num_units):
 			add_grid_unit(i)
 	num_units = new_num_units
+	resume_audio()

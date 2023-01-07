@@ -9,8 +9,8 @@ script = ExtResource( 1 )
 
 [node name="GridUnitHolder" type="Node2D" parent="."]
 
-[node name="MainLoop" type="AudioStreamPlayer" parent="."]
+[node name="MainLoop" type="AudioStreamPlayer" parent="." groups=["day_audio"]]
 stream = ExtResource( 3 )
 
-[node name="OpeningLoop" type="AudioStreamPlayer" parent="."]
+[node name="OpeningLoop" type="AudioStreamPlayer" parent="." groups=["day_audio"]]
 stream = ExtResource( 2 )

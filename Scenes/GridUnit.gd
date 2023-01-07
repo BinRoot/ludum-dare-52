@@ -9,7 +9,8 @@ signal on_purchased
 
 enum State {
 	OCCUPIED,
-	VACANT
+	VACANT,
+	DEAD
 }
 
 onready var prison_cell = $PrisonCell
@@ -36,7 +37,7 @@ func _ready():
 	reset()
 
 func harvest():
-	emit_signal("on_harvest", health)
+	emit_signal("on_harvest", Globals.harvest_earning)
 	health = 0
 	current_state = State.VACANT
 	
@@ -61,15 +62,15 @@ func _process(delta):
 	progress_bar.visible = current_state == State.OCCUPIED
 	prisoner.visible = current_state == State.OCCUPIED
 	feed_button.visible = current_state == State.OCCUPIED
-	poop1.visible = current_state == State.OCCUPIED
-	poop2.visible = current_state == State.OCCUPIED
-	poop3.visible = current_state == State.OCCUPIED
-	clean_button.visible = current_state == State.OCCUPIED
-	harvest_button.visible = current_state == State.OCCUPIED and health > 75
+	poop1.visible = current_state in [State.OCCUPIED, State.DEAD]
+	poop2.visible = current_state in [State.OCCUPIED, State.DEAD]
+	poop3.visible = current_state in [State.OCCUPIED, State.DEAD]
+	clean_button.visible = current_state in [State.OCCUPIED, State.DEAD]
+	harvest_button.visible = current_state == State.OCCUPIED and health > 90
 	buy_button.visible = current_state == State.VACANT
 	buy_button.text = "Buy (${0})".format([Globals.cost_replenish])
 	prisoner.position = prison_cell.size / 2 - prisoner.size / 2
-	if current_state == State.OCCUPIED:
+	if current_state in [State.OCCUPIED, State.DEAD]:
 		update_poop()
 
 func set_size(_new_size):
@@ -80,7 +81,9 @@ func get_size():
 
 
 func _on_HungerTimer_timeout():
-	health = max(health - 5, 0)
+	health = max(health - 5 * num_poop * num_poop, 0)
+	if health <= 0 and current_state == State.OCCUPIED:
+		current_state = State.DEAD
 
 func _on_FeedButton_pressed():
 	feed()
@@ -120,8 +123,11 @@ func _on_BuyButton_pressed():
 
 
 func _on_PoopTimer_timeout():
-	num_poop = min(3, num_poop + 1)
+	if current_state == State.OCCUPIED:
+		num_poop = min(3, num_poop + 1)
 
 
 func _on_CleanButton_pressed():
 	num_poop = 0
+	if current_state == State.DEAD:
+		current_state = State.VACANT

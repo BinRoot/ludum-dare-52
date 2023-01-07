@@ -7,6 +7,7 @@ onready var camera = $Camera2D
 onready var camera_tween = $CameraTween
 onready var money_label : Label = $Camera2D/Control/Money
 onready var time_left_label : Label = $Camera2D/Control/TimeLeft
+onready var day_count_timer : Timer = $DayCountDown
 
 var time_left = Globals.init_time_left
 
@@ -16,6 +17,8 @@ func _ready():
 
 func init():
 	time_left = Globals.init_time_left
+	grid.resume_audio()
+	day_count_timer.start()
 
 func update_camera(is_instant = false):
 	var new_zoom = Vector2.ONE * max(
@@ -36,7 +39,7 @@ func update_camera(is_instant = false):
 		camera_tween.start()
 	time_left_label.rect_position = Vector2(
 		-1 * time_left_label.rect_size.x / 2,
-		-new_position.y
+		-new_position.y - 20
 	)
 	time_left_label.get("custom_fonts/font").size = new_zoom.x * 30
 	money_label.rect_position = Vector2(
@@ -76,5 +79,5 @@ func _on_Grid_on_purchased(value):
 
 func _on_DayCountDown_timeout():
 	time_left -= 1
-	if time_left <= 0:
+	if time_left <= 0 and visible == true:
 		emit_signal("on_timeout")
