@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Home.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/FamilyMember.tscn" type="PackedScene" id=2]
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 1 )
@@ -42,6 +43,8 @@ margin_top = 36.0
 margin_right = 44.0
 margin_bottom = 50.0
 text = "Child 2"
+
+[node name="FamilyMember" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource( 2 )]
 
 [node name="Button" type="Button" parent="Control"]
 anchor_left = 0.5

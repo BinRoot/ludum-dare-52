@@ -24,6 +24,7 @@ onready var poop2 = $Poop2
 onready var poop3 = $Poop3
 onready var name_label = $Control/ProgressBar/NameLabel
 onready var clean_button = $Control/CleanButton
+onready var harvest_timer = $HarvestTimer
 var rng = RandomNumberGenerator.new()
 var current_state = State.OCCUPIED
 
@@ -37,9 +38,8 @@ func _ready():
 	reset()
 
 func harvest():
-	emit_signal("on_harvest", Globals.harvest_earning)
-	health = 0
-	current_state = State.VACANT
+	prisoner.harvest()
+	harvest_timer.start()
 	
 func feed():
 	if Globals.money >= Globals.cost_feed:
@@ -98,6 +98,7 @@ func _on_RespawnTimer_timeout():
 func reset():
 	health = 20
 	num_poop = 0
+	prisoner.reset()
 	current_state = State.OCCUPIED
 	rng.randomize()
 	var unit_names = []
@@ -131,3 +132,9 @@ func _on_CleanButton_pressed():
 	num_poop = 0
 	if current_state == State.DEAD:
 		current_state = State.VACANT
+
+
+func _on_HarvestTimer_timeout():
+	current_state = State.VACANT
+	emit_signal("on_harvest", Globals.harvest_earning)
+	health = 0

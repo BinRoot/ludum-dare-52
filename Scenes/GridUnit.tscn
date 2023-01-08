@@ -38,9 +38,9 @@ margin_bottom = 40.0
 
 [node name="FeedButton" type="Button" parent="Control"]
 margin_left = 32.0
-margin_top = 184.0
-margin_right = 94.0
-margin_bottom = 206.0
+margin_top = 176.0
+margin_right = 103.0
+margin_bottom = 208.0
 custom_fonts/font = ExtResource( 6 )
 text = "Feed"
 
@@ -80,10 +80,10 @@ custom_fonts/font = ExtResource( 6 )
 text = "Buy ($20)"
 
 [node name="CleanButton" type="Button" parent="Control"]
-margin_left = 144.0
-margin_top = 184.0
-margin_right = 227.0
-margin_bottom = 206.0
+margin_left = 136.0
+margin_top = 176.0
+margin_right = 223.0
+margin_bottom = 208.0
 custom_fonts/font = ExtResource( 6 )
 text = "Clean"
 
@@ -95,9 +95,14 @@ autostart = true
 wait_time = 8.0
 autostart = true
 
+[node name="HarvestTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="pressed" from="Control/FeedButton" to="." method="_on_FeedButton_pressed"]
 [connection signal="pressed" from="Control/HarvestButton" to="." method="_on_HarvestButton_pressed"]
 [connection signal="pressed" from="Control/BuyButton" to="." method="_on_BuyButton_pressed"]
 [connection signal="pressed" from="Control/CleanButton" to="." method="_on_CleanButton_pressed"]
 [connection signal="timeout" from="HungerTimer" to="." method="_on_HungerTimer_timeout"]
 [connection signal="timeout" from="PoopTimer" to="." method="_on_PoopTimer_timeout"]
+[connection signal="timeout" from="HarvestTimer" to="." method="_on_HarvestTimer_timeout"]
