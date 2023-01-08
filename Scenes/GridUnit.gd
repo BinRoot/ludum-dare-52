@@ -34,6 +34,7 @@ var current_state = State.OCCUPIED
 var harvest_earning = Globals.harvest_earning
 var is_new = false
 var cost_replenish = Globals.cost_replenish
+var is_locked : bool = false
 
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
@@ -53,7 +54,7 @@ func harvest():
 func feed():
 	if Globals.money >= Globals.cost_feed:
 		emit_signal("on_feed")
-		health = min(100, health + 20)
+		health = min(100, health + Globals.feed_heal)
 	
 func update_poop():
 	poop1.visible = false
@@ -111,7 +112,15 @@ func reset():
 	health = 20
 	num_poop = 0
 	prisoner.reset()
-	current_state = State.OCCUPIED
+	
+	if is_locked:
+		cost_replenish = Globals.cost_grid_unit
+	else:
+		cost_replenish = Globals.cost_replenish
+	if is_locked:
+		current_state = State.VACANT
+	else:
+		current_state = State.OCCUPIED
 	if is_new:
 		pass
 	rng.randomize()
@@ -129,6 +138,8 @@ func reset():
 		rng.randf(),
 		1.0
 	)
+	if not is_locked:
+		Globals.eventLogNewUnit(unit_name)
 
 
 func _on_BuyButton_pressed():

@@ -15,6 +15,9 @@ func _ready():
 	grid.num_units = 1
 	update_camera(true)
 
+func pause():
+	day_count_timer.stop()
+
 func init():
 	time_left = Globals.init_time_left
 	grid.resume_audio()
@@ -50,11 +53,13 @@ func update_camera(is_instant = false):
 	
 
 func _input(event):
-	if event.is_action_pressed("ui_up"):
-		buy_unit()
-	if event.is_action_pressed("ui_down"):
-		grid.num_units -= 1
-		update_camera()
+#	if event.is_action_pressed("ui_up"):
+#		buy_unit()
+#	if event.is_action_pressed("ui_down"):
+#		grid.num_units -= 1
+#		update_camera()
+	if event.is_action_pressed("ui_cancel"):
+		time_left = 0
 
 func buy_unit():
 	if Globals.money >= Globals.cost_grid_unit:

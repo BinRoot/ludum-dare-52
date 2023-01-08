@@ -66,13 +66,10 @@ func resume_audio():
 
 func add_grid_unit(i, is_locked = false):
 	var grid_unit_inst = grid_unit_scene.instance()
+	grid_unit_inst.is_locked = is_locked
 	grid_unit_holder.add_child(grid_unit_inst)
 	grid_unit_inst.position.x += (grid_unit_inst.size.x + gap_between_grids) * (i % 3)
 	grid_unit_inst.position.y += (grid_unit_inst.size.y + gap_between_grids) * int(i / 3)
-	if is_locked:
-		grid_unit_inst.cost_replenish = Globals.cost_grid_unit
-	if is_locked:
-		grid_unit_inst.current_state = grid_unit_inst.State.VACANT
 	grid_unit_inst.connect("on_harvest", self, "_on_harvest")
 	grid_unit_inst.connect("on_harvest_attempted", self, "_on_harvest_attempted")
 	grid_unit_inst.connect("on_feed", self, "_on_feed")

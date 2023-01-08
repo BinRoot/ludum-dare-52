@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Home.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/FamilyMember.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Resources/UIFont1.tres" type="DynamicFont" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 20.0
+content_margin_top = 20.0
+bg_color = Color( 0.101961, 0.0862745, 0.0862745, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.745098, 0.745098, 0.745098, 1 )
+shadow_size = 15
+anti_aliasing = false
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 1 )
@@ -13,48 +26,57 @@ current = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -22.0
-margin_top = -25.0
-margin_right = 22.0
-margin_bottom = 25.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
-margin_right = 44.0
-margin_bottom = 50.0
-
-[node name="Label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
-margin_right = 44.0
-margin_bottom = 14.0
-text = "Mate"
-
-[node name="Label2" type="Label" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 44.0
-margin_bottom = 32.0
-text = "Child 1"
-
-[node name="Label3" type="Label" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 36.0
-margin_right = 44.0
-margin_bottom = 50.0
-text = "Child 2"
-
-[node name="FamilyMember" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource( 2 )]
-
 [node name="Button" type="Button" parent="Control"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -23.5
-margin_top = 72.0
-margin_right = 23.5
-margin_bottom = 92.0
+margin_left = -40.0
+margin_top = 208.0
+margin_right = 40.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 3 )
 text = "Sleep"
+
+[node name="FamilyMember" parent="Control" instance=ExtResource( 2 )]
+margin_left = -352.0
+margin_top = -256.0
+margin_right = -352.0
+margin_bottom = -256.0
+
+[node name="FamilyMember2" parent="Control" instance=ExtResource( 2 )]
+margin_left = -352.0
+margin_top = -112.0
+margin_right = -352.0
+margin_bottom = -112.0
+
+[node name="FamilyMember3" parent="Control" instance=ExtResource( 2 )]
+margin_left = -352.0
+margin_top = 32.0
+margin_right = -352.0
+margin_bottom = 32.0
+
+[node name="MoneyLabel" type="Label" parent="Control"]
+margin_left = -448.0
+margin_top = 232.0
+margin_right = -408.0
+margin_bottom = 250.0
+custom_fonts/font = ExtResource( 3 )
+text = "$50"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+margin_top = -256.0
+margin_right = 400.0
+margin_bottom = 144.0
+custom_styles/bg = SubResource( 1 )
+scroll_horizontal_enabled = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/ScrollContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 20.0
+margin_bottom = 20.0
+
+[node name="EventLogHolder" type="VBoxContainer" parent="Control/ScrollContainer/MarginContainer"]
 
 [connection signal="pressed" from="Control/Button" to="." method="_on_Button_pressed"]

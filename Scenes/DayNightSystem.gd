@@ -32,11 +32,14 @@ func _process(delta):
 
 func _on_GridTester_on_timeout():
 	current_state = State.Home
+	grid_tester.pause()
 	home_audio.play()
+	home.reset()
 	get_tree().call_group("day_audio", "stop")
 
 func _on_Home_on_exit():
 	current_state = State.Work
-	home_audio.stop()
+	Globals.day_event_log = []
 	Globals.day_count += 1
+	home_audio.stop()	
 	grid_tester.init()
