@@ -37,6 +37,7 @@ custom_fonts/font = ExtResource( 3 )
 autostart = true
 
 [connection signal="on_feed" from="Grid" to="." method="_on_Grid_on_feed"]
+[connection signal="on_grid_changed" from="Grid" to="." method="_on_Grid_on_grid_changed"]
 [connection signal="on_harvest" from="Grid" to="." method="_on_Grid_on_harvest"]
 [connection signal="on_purchased" from="Grid" to="." method="_on_Grid_on_purchased"]
 [connection signal="timeout" from="DayCountDown" to="." method="_on_DayCountDown_timeout"]

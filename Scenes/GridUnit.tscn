@@ -72,10 +72,12 @@ text = "Stevo"
 align = 1
 
 [node name="BuyButton" type="Button" parent="Control"]
-margin_left = 64.0
-margin_top = 112.0
-margin_right = 207.0
-margin_bottom = 134.0
+margin_left = 60.0
+margin_top = 107.0
+margin_right = 211.0
+margin_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
 custom_fonts/font = ExtResource( 6 )
 text = "Buy ($20)"
 

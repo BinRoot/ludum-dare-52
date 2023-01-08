@@ -4,6 +4,7 @@ var size : Vector2 = Vector2.ZERO setget set_size, get_size
 var health : int
 
 signal on_harvest
+signal on_harvest_attempted
 signal on_feed
 signal on_purchased
 
@@ -30,6 +31,9 @@ onready var harvested_label = $Control/HarvestedLabel
 onready var harvested_label_tween = $HarvestedLabelTween
 var rng = RandomNumberGenerator.new()
 var current_state = State.OCCUPIED
+var harvest_earning = Globals.harvest_earning
+var is_new = false
+var cost_replenish = Globals.cost_replenish
 
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
@@ -41,6 +45,7 @@ func _ready():
 	reset()
 
 func harvest():
+	emit_signal("on_harvest_attempted", harvest_earning)
 	prisoner.harvest()
 	current_state = State.HARVESTING
 	harvest_timer.start()
@@ -74,7 +79,8 @@ func _process(delta):
 	clean_button.visible = current_state in [State.OCCUPIED, State.DEAD]
 	harvest_button.visible = current_state == State.OCCUPIED and health > 90
 	buy_button.visible = current_state == State.VACANT
-	buy_button.text = "Buy (${0})".format([Globals.cost_replenish])
+	buy_button.text = "Buy (${0})".format([cost_replenish])
+	buy_button.rect_position = get_size() / 2 - buy_button.rect_size / 2
 	prisoner.position = prison_cell.size / 2 - prisoner.size / 2
 	if current_state in [State.OCCUPIED, State.DEAD, State.HARVESTING]:
 		update_poop()
@@ -106,6 +112,8 @@ func reset():
 	num_poop = 0
 	prisoner.reset()
 	current_state = State.OCCUPIED
+	if is_new:
+		pass
 	rng.randomize()
 	var unit_names = []
 	for unit in get_tree().get_nodes_in_group("unit"):
@@ -124,8 +132,8 @@ func reset():
 
 
 func _on_BuyButton_pressed():
-	if Globals.money >= Globals.cost_replenish:
-		emit_signal("on_purchased", Globals.cost_replenish)
+	if Globals.money >= cost_replenish:
+		emit_signal("on_purchased", cost_replenish)
 		reset()
 
 
@@ -141,8 +149,7 @@ func _on_CleanButton_pressed():
 
 
 func _on_HarvestTimer_timeout():
-	var earnings = Globals.harvest_earning
-	harvested_label.text = "Harvested ${0}".format([earnings])
+	harvested_label.text = "Harvested ${0}".format([harvest_earning])
 	harvested_label.visible = true
 	var starting_pos = get_size() / 2 - harvested_label.rect_size / 2
 	var starting_scale = Vector2.ONE
@@ -162,7 +169,7 @@ func _on_HarvestTimer_timeout():
 		harvested_label, 
 		"rect_scale",
 		starting_scale,
-		starting_scale * 2,
+		starting_scale * 1.2,
 		0.3,
 		Tween.TRANS_QUINT,
 		Tween.EASE_IN
@@ -206,5 +213,5 @@ func _on_HarvestTimer_timeout():
 	yield(harvested_label_tween, "tween_completed")
 	
 	current_state = State.VACANT
-	emit_signal("on_harvest", earnings)	
+	emit_signal("on_harvest", harvest_earning)
 	health = 0

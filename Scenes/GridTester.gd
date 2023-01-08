@@ -81,3 +81,7 @@ func _on_DayCountDown_timeout():
 	time_left -= 1
 	if time_left <= 0 and visible == true:
 		emit_signal("on_timeout")
+
+
+func _on_Grid_on_grid_changed():
+	update_camera()
