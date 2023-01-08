@@ -87,6 +87,15 @@ margin_bottom = 208.0
 custom_fonts/font = ExtResource( 6 )
 text = "Clean"
 
+[node name="HarvestedLabel" type="Label" parent="Control"]
+anchor_right = 0.5
+margin_right = 65.0
+margin_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 5 )
+text = "Harvested $X"
+
 [node name="HungerTimer" type="Timer" parent="."]
 wait_time = 4.0
 autostart = true
@@ -98,6 +107,8 @@ autostart = true
 [node name="HarvestTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="HarvestedLabelTween" type="Tween" parent="."]
 
 [connection signal="pressed" from="Control/FeedButton" to="." method="_on_FeedButton_pressed"]
 [connection signal="pressed" from="Control/HarvestButton" to="." method="_on_HarvestButton_pressed"]

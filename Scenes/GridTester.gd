@@ -41,12 +41,12 @@ func update_camera(is_instant = false):
 		-1 * time_left_label.rect_size.x / 2,
 		-new_position.y - 20
 	)
-	time_left_label.get("custom_fonts/font").size = new_zoom.x * 30
+	time_left_label.get("custom_fonts/font").size = new_zoom.x * 35
 	money_label.rect_position = Vector2(
 		-1 * money_label.rect_size.x / 2,
 		new_position.y + 5
 	)
-	money_label.get("custom_fonts/font").size = new_zoom.x * 30
+	money_label.get("custom_fonts/font").size = new_zoom.x * 35
 	
 
 func _input(event):
