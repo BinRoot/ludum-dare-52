@@ -33,13 +33,20 @@ onready var apple_sprite : Sprite = $AppleSprite
 onready var sickle_sprite : Sprite = $SickleSprite
 onready var broom_sprite : Sprite = $BroomSprite
 onready var hotdog_sprite : AnimatedSprite = $HotdogSprite
+onready var harvest_sfx : AudioStreamPlayer = $HarvestSfx
+onready var wrong_sfx : AudioStreamPlayer = $WrongSfx
+onready var click_sfx : AudioStreamPlayer = $ClickSfx
+onready var unlock_sfx : AudioStreamPlayer = $UnlockSfx
+onready var harvest_pop_sprite : AnimatedSprite = $HarvestPopSprite
+onready var lock_sprite : AnimatedSprite = $LockSprite
+
 var rng = RandomNumberGenerator.new()
 var current_state = State.OCCUPIED
 var harvest_earning = Globals.harvest_earning
 var is_new = false
 var cost_replenish = Globals.cost_replenish
 var is_locked : bool = false
-
+var is_hotdog_eating : bool = false
 
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
@@ -51,6 +58,7 @@ func _ready():
 	reset()
 
 func harvest():
+	harvest_sfx.play()
 	emit_signal("on_harvest_attempted", harvest_earning)
 	prisoner.harvest()
 	current_state = State.HARVESTING
@@ -59,9 +67,9 @@ func harvest():
 func feed():
 	if Globals.money >= Globals.cost_feed:
 		emit_signal("on_feed")
-		health = min(100, health + Globals.feed_heal)
 		hotdog_sprite.frame = 0
 		hotdog_sprite.play()
+		is_hotdog_eating = true
 	
 func update_poop():
 	poop1.visible = false
@@ -77,7 +85,7 @@ func update_poop():
 func _process(delta):
 	progress_bar.value = health
 	progress_bar.visible = current_state == State.OCCUPIED
-	prisoner.visible = current_state in [State.OCCUPIED, State.HARVESTING]
+	prisoner.visible = current_state in [State.OCCUPIED, State.HARVESTING, State.DEAD]
 	feed_button.visible = current_state == State.OCCUPIED
 	poop1.visible = current_state in [State.OCCUPIED, State.DEAD, State.HARVESTING]
 	poop2.visible = current_state in [State.OCCUPIED, State.DEAD, State.HARVESTING]
@@ -87,14 +95,17 @@ func _process(delta):
 	clean_button.visible = current_state in [State.OCCUPIED, State.DEAD]
 	harvest_button.visible = current_state == State.OCCUPIED and health > 90
 	buy_button.visible = current_state == State.VACANT
-	buy_button.text = "Buy (${0})".format([cost_replenish])
-	buy_button.rect_position = get_size() / 2 - buy_button.rect_size / 2
-	prisoner.position = prison_cell.size / 2 - prisoner.size / 2
+	buy_button.text = "${0}".format([cost_replenish])
+	buy_button.rect_position = get_size() / 2 - buy_button.rect_size / 2 + Vector2.DOWN * 40
+	lock_sprite.position = get_size() / 2 + Vector2.UP * 40
+	harvest_pop_sprite.position = get_size() / 2
+	prisoner.position = prison_cell.size / 2 - prisoner.size / 2 + Vector2.LEFT * 19 + Vector2.UP * 15
 	if current_state in [State.OCCUPIED, State.DEAD, State.HARVESTING]:
 		update_poop()
 	apple_sprite.visible = feed_button.visible
 	sickle_sprite.visible = harvest_button.visible
 	broom_sprite.visible = clean_button.visible
+	lock_sprite.visible = buy_button.visible and is_locked
 
 func set_size(_new_size):
 	push_warning("cannot update GridUnit size")
@@ -107,19 +118,28 @@ func _on_HungerTimer_timeout():
 	health = max(health - 5 * num_poop * num_poop, 0)
 	if health <= 0 and current_state == State.OCCUPIED:
 		current_state = State.DEAD
+		prisoner.dead()
 
 func _on_FeedButton_pressed():
-	feed()
+	if num_poop == 0 and not is_hotdog_eating:
+		click_sfx.play()
+		feed()
+	else:
+		wrong_sfx.play()
 
 func _on_HarvestButton_pressed():
-	harvest()
+	if num_poop == 0:
+		click_sfx.play()
+		harvest()
+	else:
+		wrong_sfx.play()
 
 
 func _on_RespawnTimer_timeout():
 	reset()
 	
 func reset():
-	health = 20
+	health = Globals.init_health
 	num_poop = 0
 	prisoner.reset()
 	
@@ -154,24 +174,31 @@ func reset():
 
 func _on_BuyButton_pressed():
 	if Globals.money >= cost_replenish:
+		if is_locked:
+			lock_sprite.play("unlock")
+			unlock_sfx.play()
+			yield(lock_sprite, "animation_finished")
 		emit_signal("on_purchased", cost_replenish)
 		is_locked = false
 		reset()
 
 
 func _on_PoopTimer_timeout():
-	if current_state == State.OCCUPIED:
+	if current_state == State.OCCUPIED and not is_hotdog_eating:
 		num_poop = min(3, num_poop + 1)
 
 
 func _on_CleanButton_pressed():
+	if num_poop > 0:
+		click_sfx.play()
 	num_poop = 0
 	if current_state == State.DEAD:
 		current_state = State.VACANT
 
 
 func _on_HarvestTimer_timeout():
-	harvested_label.text = "Harvested ${0}".format([harvest_earning])
+	harvest_pop_sprite.play()
+	harvested_label.text = "${0}".format([harvest_earning])
 	harvested_label.visible = true
 	var starting_pos = get_size() / 2 - harvested_label.rect_size / 2
 	var starting_scale = Vector2.ONE
@@ -183,7 +210,7 @@ func _on_HarvestTimer_timeout():
 		"rect_position",
 		starting_pos,
 		starting_pos + Vector2.UP * 100,
-		0.3,
+		0.8,
 		Tween.TRANS_CUBIC,
 		Tween.EASE_OUT
 	)
@@ -204,8 +231,8 @@ func _on_HarvestTimer_timeout():
 		harvested_label, 
 		"rect_position",
 		harvested_label.rect_position,
-		harvested_label.rect_position + Vector2.DOWN * 100,
-		4,
+		harvested_label.rect_position + Vector2.DOWN * 50,
+		2,
 		Tween.TRANS_EXPO,
 		Tween.EASE_IN
 	)
@@ -237,3 +264,9 @@ func _on_HarvestTimer_timeout():
 	current_state = State.VACANT
 	emit_signal("on_harvest", harvest_earning)
 	health = 0
+
+
+func _on_HotdogSprite_animation_finished():
+	prisoner.after_hotdog_eaten()
+	is_hotdog_eating = false
+	health = min(100, health + Globals.feed_heal)

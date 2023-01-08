@@ -3,6 +3,7 @@ extends Node2D
 var size : Vector2 = Vector2.ZERO setget set_size, get_size
 onready var img : TextureRect = $TextureRect
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
