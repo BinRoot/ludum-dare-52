@@ -22,6 +22,7 @@ Globals="*res://Scripts/Globals.gd"
 
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
+window/stretch/aspect="keep_width"
 
 [gui]
 

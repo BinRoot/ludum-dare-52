@@ -145,6 +145,7 @@ func reset():
 func _on_BuyButton_pressed():
 	if Globals.money >= cost_replenish:
 		emit_signal("on_purchased", cost_replenish)
+		is_locked = false
 		reset()
 
 
