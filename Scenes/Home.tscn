@@ -43,18 +43,21 @@ margin_left = -352.0
 margin_top = -256.0
 margin_right = -352.0
 margin_bottom = -256.0
+character = "wife"
 
 [node name="FamilyMember2" parent="Control" instance=ExtResource( 2 )]
 margin_left = -352.0
 margin_top = -112.0
 margin_right = -352.0
 margin_bottom = -112.0
+character = "girl"
 
 [node name="FamilyMember3" parent="Control" instance=ExtResource( 2 )]
 margin_left = -352.0
 margin_top = 32.0
 margin_right = -352.0
 margin_bottom = 32.0
+character = "boy"
 
 [node name="MoneyLabel" type="Label" parent="Control"]
 margin_left = -448.0

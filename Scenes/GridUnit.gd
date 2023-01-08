@@ -29,12 +29,17 @@ onready var clean_button = $Control/CleanButton
 onready var harvest_timer = $HarvestTimer
 onready var harvested_label = $Control/HarvestedLabel
 onready var harvested_label_tween = $HarvestedLabelTween
+onready var apple_sprite : Sprite = $AppleSprite
+onready var sickle_sprite : Sprite = $SickleSprite
+onready var broom_sprite : Sprite = $BroomSprite
+onready var hotdog_sprite : AnimatedSprite = $HotdogSprite
 var rng = RandomNumberGenerator.new()
 var current_state = State.OCCUPIED
 var harvest_earning = Globals.harvest_earning
 var is_new = false
 var cost_replenish = Globals.cost_replenish
 var is_locked : bool = false
+
 
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
@@ -55,6 +60,8 @@ func feed():
 	if Globals.money >= Globals.cost_feed:
 		emit_signal("on_feed")
 		health = min(100, health + Globals.feed_heal)
+		hotdog_sprite.frame = 0
+		hotdog_sprite.play()
 	
 func update_poop():
 	poop1.visible = false
@@ -85,6 +92,9 @@ func _process(delta):
 	prisoner.position = prison_cell.size / 2 - prisoner.size / 2
 	if current_state in [State.OCCUPIED, State.DEAD, State.HARVESTING]:
 		update_poop()
+	apple_sprite.visible = feed_button.visible
+	sickle_sprite.visible = harvest_button.visible
+	broom_sprite.visible = clean_button.visible
 
 func set_size(_new_size):
 	push_warning("cannot update GridUnit size")
@@ -132,12 +142,12 @@ func reset():
 		if not (unit_name in unit_names):
 			break
 	name_label.text = unit_name
-	prisoner.modulate = Color(
+	prisoner.set_color(Color(
 		rng.randf(), 
 		rng.randf(), 
 		rng.randf(),
 		1.0
-	)
+	))
 	if not is_locked:
 		Globals.eventLogNewUnit(unit_name)
 
