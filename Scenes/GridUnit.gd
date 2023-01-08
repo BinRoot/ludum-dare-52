@@ -37,6 +37,7 @@ onready var harvest_sfx : AudioStreamPlayer = $HarvestSfx
 onready var wrong_sfx : AudioStreamPlayer = $WrongSfx
 onready var click_sfx : AudioStreamPlayer = $ClickSfx
 onready var unlock_sfx : AudioStreamPlayer = $UnlockSfx
+onready var sweep_sfx : AudioStreamPlayer = $SweepSfx
 onready var harvest_pop_sprite : AnimatedSprite = $HarvestPopSprite
 onready var lock_sprite : AnimatedSprite = $LockSprite
 
@@ -191,6 +192,7 @@ func _on_PoopTimer_timeout():
 func _on_CleanButton_pressed():
 	if num_poop > 0:
 		click_sfx.play()
+		sweep_sfx.play()
 	num_poop = 0
 	if current_state == State.DEAD:
 		current_state = State.VACANT

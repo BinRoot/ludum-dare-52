@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scenes/PrisonCell.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Prisoner.tscn" type="PackedScene" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Assets/Audio/Wrong Sound.mp3" type="AudioStream" id=12]
 [ext_resource path="res://Assets/Audio/Click Sound.mp3" type="AudioStream" id=13]
 [ext_resource path="res://Assets/Audio/Unlock Sound.mp3" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Audio/Sweep Sound.mp3" type="AudioStream" id=15]
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 9 )
@@ -369,6 +370,10 @@ animation = "unlock"
 
 [node name="UnlockSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
+
+[node name="SweepSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+volume_db = -10.547
 
 [connection signal="animation_finished" from="HotdogSprite" to="." method="_on_HotdogSprite_animation_finished"]
 [connection signal="pressed" from="Control/FeedButton" to="." method="_on_FeedButton_pressed"]

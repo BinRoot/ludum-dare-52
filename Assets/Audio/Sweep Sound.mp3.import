@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Sweep Sound.mp3-fb16934ee2641b8a26a47083836f32e4.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Sweep Sound.mp3"
+dest_files=[ "res://.import/Sweep Sound.mp3-fb16934ee2641b8a26a47083836f32e4.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
