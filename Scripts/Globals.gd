@@ -1,8 +1,8 @@
 extends Node
 
-var init_money : int = 100
+var init_money : int = 120
 var money : int = init_money
-var cost_replenish : int = 50
+var cost_replenish : int = 35
 var cost_feed : int = 5
 var cost_grid_unit : int = 200
 var feed_heal : int = 15

@@ -29,11 +29,8 @@ func _process(delta):
 		if cells.is_locked:
 			num_locked_cells += 1
 	if num_locked_cells <= 0 and num_units < 9:
-		if num_units == 1 and Globals.money >= Globals.cost_grid_unit:
-			increment_num_units(true)
-			emit_signal("on_grid_changed")
-		elif num_units > 1:
-			increment_num_units(true)
+		if Globals.money >= Globals.cost_grid_unit * Globals.num_units:
+			increment_num_units()
 			emit_signal("on_grid_changed")
 			
 #	if (Globals.money >= Globals.cost_grid_unit and num_units == 1 or num_units > 1) and not is_non_occupied_available and num_units < 9:
@@ -93,9 +90,9 @@ func increment_num_units(is_locked = false):
 	set_num_units(num_units + 1)
 
 func set_num_units(new_num_units):
-	var is_locked = new_num_units != 1
+	#var is_locked = new_num_units != 1
 	if new_num_units == num_units + 1:
-		add_grid_unit(new_num_units - 1, is_locked)
+		add_grid_unit(new_num_units - 1, false)
 	elif new_num_units == num_units - 1:
 		grid_unit_holder.remove_child(
 			grid_unit_holder.get_children()[-1]

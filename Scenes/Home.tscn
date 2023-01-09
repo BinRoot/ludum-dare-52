@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/Home.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/FamilyMember.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Audio/Click Sound.mp3" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Sprites/canvas.png" type="Texture" id=4]
-[ext_resource path="res://Resources/CoolFont.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Assets/Fonts/alagard.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="DynamicFontData" id=4]
@@ -35,6 +35,11 @@ border_width_bottom = 5
 border_color = Color( 0.745098, 0.745098, 0.745098, 1 )
 shadow_size = 15
 anti_aliasing = false
+
+[sub_resource type="DynamicFont" id=6]
+size = 70
+outline_size = 5
+font_data = ExtResource( 5 )
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 1 )
@@ -126,10 +131,10 @@ margin_bottom = 20.0
 [node name="WelcomeHome" type="Label" parent="."]
 margin_left = -360.0
 margin_top = -280.0
-margin_right = 9.0
-margin_bottom = -232.0
+margin_right = 157.0
+margin_bottom = -213.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Welcome Home"
 uppercase = true
 
