@@ -13,6 +13,7 @@ onready var lights_out_tween : Tween = $LightsOutTween
 onready var lights_out_audio : AudioStreamPlayer = $LightsOutAudio
 var num_times_horn_played = 0
 var num_bells = 2
+var is_already_quitting = false
 
 func _ready():
 	grid.num_units = 1
@@ -23,6 +24,7 @@ func pause():
 
 func init():
 	Globals.time_left = Globals.init_time_left
+	is_already_quitting = false
 	grid.resume_audio()
 	day_count_timer.start()
 	lights_out_tween.interpolate_property(
@@ -93,8 +95,9 @@ func _process(delta):
 		if hp_potential_heal >= Globals.min_health_for_harvest - unit.health:
 			is_found = true
 			break
-	if not is_found:
-		pass #time_left = 2
+	if not is_found and not is_already_quitting:
+		is_already_quitting = true
+		Globals.time_left = 2
 
 func _on_Grid_on_harvest(value):
 	Globals.money += value
