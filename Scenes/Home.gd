@@ -9,6 +9,7 @@ onready var family1 = $Control/FamilyMember
 onready var family2 = $Control/FamilyMember2
 onready var family3 = $Control/FamilyMember3
 onready var click_sound = $ClickSound
+onready var scroll_container = $Control/ScrollContainer
 var dynamic_font = preload("res://Resources/UIFont2_Small.tres")
 
 func _ready():
@@ -28,9 +29,15 @@ func reset(is_sick_mode = true):
 			#label_text = "{0} joined".format([event["name"]])
 		elif event["type"] == "poopy":
 			label_text = "{0} slept in filth".format([event["name"]])
+		elif event["type"] == "family_died":
+			label_text = "Your {0} has died.".format([event["character"]])
+		elif event["type"] == "story":
+			label_text = event["text"]
 		if label_text != null:
 			var l = Label.new()
 			l.text = label_text
+			l.rect_scale = Vector2.ONE * 0.7
+			l.rect_size.y = scroll_container.rect_size.y
 			l.add_font_override("font", dynamic_font)
 			event_log_holder.add_child(l)
 			l.margin_left = 10

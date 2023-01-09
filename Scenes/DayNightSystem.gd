@@ -49,6 +49,7 @@ func _on_GridTester_on_timeout():
 	current_state = State.Home
 	grid_tester.pause()
 	home_audio.play()
+	Globals.event_log_story(Globals.day_count)
 	home.reset()
 	get_tree().call_group("day_audio", "stop")
 	

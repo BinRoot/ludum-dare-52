@@ -46,6 +46,8 @@ func _on_Button_pressed():
 func sick1():
 	var delta = 3
 	health -= rng.randi_range(Globals.family_health_decay - delta, Globals.family_health_decay + delta)
+	if health <= 0:
+		Globals.event_log_family_dead(character)
 	update_dead()
 
 func update_dead():

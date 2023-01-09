@@ -69,9 +69,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = 200.0
-margin_right = 187.0
-margin_bottom = 259.0
+margin_left = -8.0
+margin_top = 192.0
+margin_right = 179.0
+margin_bottom = 251.0
 custom_fonts/font = SubResource( 5 )
 text = "Sleep"
 
@@ -115,8 +116,8 @@ text = "$50"
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
 margin_left = -8.0
 margin_top = -32.0
-margin_right = 496.0
-margin_bottom = 168.0
+margin_right = 480.0
+margin_bottom = 176.0
 custom_styles/bg = SubResource( 1 )
 scroll_horizontal_enabled = false
 
