@@ -206,7 +206,7 @@ func _on_PoopTimer_timeout():
 	if current_state == State.OCCUPIED and not is_hotdog_eating and Globals.time_left > 0:
 		num_poop = min(3, num_poop + 1)
 	update_poop_timer()
-	poop_timer.wait_time = rng.randi_range(3, 11)
+	poop_timer.wait_time = rng.randi_range(3, 9)
 	poop_timer.start()
 
 func update_poop_timer():
