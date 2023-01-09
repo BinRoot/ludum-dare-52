@@ -17,3 +17,5 @@ func _on_Restart_pressed():
 	get_tree().reload_current_scene()
 	Globals.time_left = Globals.init_time_left
 	Globals.money = Globals.init_money
+	Globals.day_count = 1
+	Globals.day_event_log = []
