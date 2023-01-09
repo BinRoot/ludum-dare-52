@@ -55,7 +55,7 @@ var is_harvest_ever_clicked : bool = false
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
 	"Gulb", "Eithing", "Crumptop", "Joera", "Vixta", "Yindig", "Ripertha",
-	"Bigs", "Smol", "Rink", "Oppa", "Rinta", "Lint"]
+	"Bigs", "Smol", "Rink", "Oppa", "Rinta", "Lint", "Henry", "Nishant"]
 var unit_name : String
 
 func _ready():

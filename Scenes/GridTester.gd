@@ -12,9 +12,12 @@ onready var day_end_audio : AudioStreamPlayer = $DayEndAudio
 onready var lights_out_tween : Tween = $LightsOutTween
 onready var lights_out_audio : AudioStreamPlayer = $LightsOutAudio
 onready var money_tween : Tween = $MoneyTween
+onready var day_x_label : Label = $Camera2D/Control/DayX
+onready var day_x_tween : Tween = $DayXTween
 var num_times_horn_played = 0
 var num_bells = 2
 var is_already_quitting = false
+var is_feed_ever_pressed = false
 
 func _ready():
 	grid.num_units = 1
@@ -25,6 +28,19 @@ func pause():
 
 func init():
 	Globals.time_left = Globals.init_time_left
+	day_x_label.visible = true
+	day_x_label.rect_pivot_offset = day_x_label.rect_size / 2
+	day_x_label.text = "You made it to day {0}".format([Globals.day_count])
+	day_x_tween.interpolate_property(
+		day_x_label,
+		"rect_scale",
+		day_x_label.rect_scale * 1.2,
+		day_x_label.rect_scale,
+		5,
+		Tween.TRANS_EXPO,
+		Tween.EASE_IN_OUT
+	)
+	day_x_tween.start()
 	is_already_quitting = false
 	grid.resume_audio()
 	day_count_timer.start()
@@ -128,6 +144,7 @@ func _on_Grid_on_harvest(value):
 
 func _on_Grid_on_feed():
 	Globals.money -= Globals.cost_feed
+	is_feed_ever_pressed = true
 
 
 func _on_Grid_on_purchased(value):
@@ -135,13 +152,14 @@ func _on_Grid_on_purchased(value):
 
 
 func _on_DayCountDown_timeout():
-	Globals.time_left -= 1
-	if Globals.time_left <= 0 and not day_end_audio.playing and num_times_horn_played < num_bells:
-		day_end_audio.play()
-		num_times_horn_played += 1
-	
-	if Globals.time_left <= -10 and visible == true:
-		emit_signal("on_timeout")
+	if is_feed_ever_pressed:
+		Globals.time_left -= 1
+		if Globals.time_left <= 0 and not day_end_audio.playing and num_times_horn_played < num_bells:
+			day_end_audio.play()
+			num_times_horn_played += 1
+		
+		if Globals.time_left <= -10 and visible == true:
+			emit_signal("on_timeout")
 
 
 func _on_Grid_on_grid_changed():
@@ -161,3 +179,7 @@ func _on_DayEndAudio_finished():
 			Tween.EASE_IN
 		)
 		lights_out_tween.start()
+
+
+func _on_DayXTween_tween_all_completed():
+	day_x_label.visible = false

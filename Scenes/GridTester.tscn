@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/GridTester.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Grid.tscn" type="PackedScene" id=2]
@@ -6,6 +6,13 @@
 [ext_resource path="res://Assets/Audio/End of Work.mp3" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Sprites/pxArt.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Audio/Lights Out.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Fonts/alagard.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+outline_size = 10
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 7 )
 
 [node name="GridTester" type="Node2D"]
 script = ExtResource( 1 )
@@ -42,6 +49,23 @@ grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 3 )
 
+[node name="DayX" type="Label" parent="Camera2D/Control"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -472.0
+margin_top = -47.0
+margin_right = 472.0
+margin_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 1 )
+text = "You made it to day X"
+align = 1
+valign = 1
+
 [node name="CameraTween" type="Tween" parent="."]
 
 [node name="DayCountDown" type="Timer" parent="."]
@@ -57,9 +81,12 @@ stream = ExtResource( 6 )
 
 [node name="MoneyTween" type="Tween" parent="."]
 
+[node name="DayXTween" type="Tween" parent="."]
+
 [connection signal="on_feed" from="Grid" to="." method="_on_Grid_on_feed"]
 [connection signal="on_grid_changed" from="Grid" to="." method="_on_Grid_on_grid_changed"]
 [connection signal="on_harvest" from="Grid" to="." method="_on_Grid_on_harvest"]
 [connection signal="on_purchased" from="Grid" to="." method="_on_Grid_on_purchased"]
 [connection signal="timeout" from="DayCountDown" to="." method="_on_DayCountDown_timeout"]
 [connection signal="finished" from="DayEndAudio" to="." method="_on_DayEndAudio_finished"]
+[connection signal="tween_all_completed" from="DayXTween" to="." method="_on_DayXTween_tween_all_completed"]
