@@ -1,6 +1,6 @@
 extends Node2D
 
-export(String, "day1") var reason
+export(String, "day1", "family") var reason
 onready var descripiton : Label = $Description
 onready var camera : Camera2D = $Camera2D
 onready var dayx_label : Label = $DayX
@@ -12,6 +12,8 @@ func _ready():
 func _process(delta):
 	if reason == "day1":
 		descripiton.text = "With no money left for resources, your family eventually starved."
+	elif reason == "family":
+		descripiton.text = "Your family is dead. You have no reason to go on."
 	
 	dayx_label.text = "You made it to day {0}".format([Globals.day_count])
 

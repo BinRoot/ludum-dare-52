@@ -4,7 +4,7 @@ var init_money : int = 80
 var money : int = init_money
 var cost_replenish : int = 35
 var cost_feed : int = 5
-var cost_grid_unit : int = 100
+var cost_grid_unit : int = 150
 var feed_heal : int = 15
 var family_feed_heal : int = 2
 var init_time_left : int = 60
@@ -54,7 +54,9 @@ func event_log_story(_day_count):
 		"You feel uneasy with work",
 		"Your soul does not move",
 		"Those hotdogs seem off",
-		"Is this the life?"
+		"Is this the life?",
+		"You crave money",
+		"You lust for more"
 	]
 	if _day_count < len(lines):
 		day_event_log.append(

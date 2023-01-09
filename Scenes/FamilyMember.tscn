@@ -76,7 +76,7 @@ region = Rect2( 0, 0, 16, 16 )
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
 
-[node name="FamilyMember" type="Control"]
+[node name="FamilyMember" type="Control" groups=["family"]]
 margin_right = 300.0
 margin_bottom = 128.0
 script = ExtResource( 3 )

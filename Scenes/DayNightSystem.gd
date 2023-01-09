@@ -55,14 +55,26 @@ func _on_GridTester_on_timeout():
 	
 
 func _on_Home_on_exit():
+	
 	home_audio.stop()
+	
+	var is_any_alive = false
+	for family_member in get_tree().get_nodes_in_group("family"):
+		if family_member.health > 0:
+			is_any_alive = true
+			break
+	
 	var is_found = Globals.is_harvestable_found()
+	
 	if Globals.day_count == 1 and Globals.money <= 0 and not is_found:
 		current_state = State.GameOver
 		game_over.reason = "day1"
 	elif Globals.day_count > 1 and Globals.money <= 0 and not is_found:
 		current_state = State.GameOver
 		game_over.reason = "day1"
+	elif not is_any_alive:
+		current_state = State.GameOver
+		game_over.reason = "family"
 	else:
 		current_state = State.Work
 		Globals.day_event_log = []

@@ -30,7 +30,7 @@ func reset(is_sick_mode = true):
 		elif event["type"] == "poopy":
 			label_text = "{0} slept in filth".format([event["name"]])
 		elif event["type"] == "family_died":
-			label_text = "Your {0} has died.".format([event["character"]])
+			label_text = "Your {0} has died".format([event["character"]])
 		elif event["type"] == "story":
 			label_text = event["text"]
 		if label_text != null:
