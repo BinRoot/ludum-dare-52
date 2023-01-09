@@ -27,7 +27,8 @@ func _process(delta):
 		animation_name = "{0}_sick".format([character])
 	sprite.play(animation_name)
 	
-	var is_harvestable = (Globals.day_count > 1) and (health > 0) and (Globals.money < 5 or health >= Globals.min_health_for_harvest)
+#	var is_harvestable = (Globals.day_count > 1) and (health > 0) and (Globals.money < 5 or health >= Globals.min_health_for_harvest)
+	var is_harvestable = (Globals.day_count > 1) and (health > 0) and (Globals.money <= 5)
 	harvest_button.visible = is_harvestable
 	harvest_sprite.visible = is_harvestable
 	sprite.visible = health > 0
@@ -45,7 +46,7 @@ func _on_Button_pressed():
 			
 func sick1():
 	var delta = 3
-	health -= rng.randi_range(Globals.family_health_decay - delta, Globals.family_health_decay + delta)
+	health -= rng.randi_range(Globals.family_health_decay - delta, Globals.family_health_decay + delta) + Globals.day_count + Globals.num_units
 	if health <= 0:
 		Globals.event_log_family_dead(character)
 	update_dead()

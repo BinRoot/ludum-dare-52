@@ -206,7 +206,7 @@ func _on_PoopTimer_timeout():
 	if current_state == State.OCCUPIED and not is_hotdog_eating and Globals.time_left > 0:
 		num_poop = min(3, num_poop + 1)
 	update_poop_timer()
-	poop_timer.wait_time = rng.randi_range(3, 9)
+	poop_timer.wait_time = rng.randi_range(2, 6)
 	poop_timer.start()
 
 func update_poop_timer():
@@ -220,13 +220,17 @@ func update_poop_timer():
 		hunger_timer.wait_time = 0.5
 
 func _on_CleanButton_pressed():
-	if num_poop > 0:
-		click_sfx.play()
-		sweep_sfx.play()
-	num_poop = 0
-	update_poop_timer()
-	if current_state == State.DEAD:
-		current_state = State.VACANT
+	if Globals.money >= Globals.cost_clean * num_poop:
+		Globals.money -= Globals.cost_clean * num_poop
+		if num_poop > 0:
+			click_sfx.play()
+			sweep_sfx.play()
+		num_poop = 0
+		update_poop_timer()
+		if current_state == State.DEAD:
+			current_state = State.VACANT
+	else:
+		wrong_sfx.play()
 
 
 func _on_HarvestTimer_timeout():

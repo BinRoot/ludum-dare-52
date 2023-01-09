@@ -69,6 +69,7 @@ valign = 1
 [node name="CameraTween" type="Tween" parent="."]
 
 [node name="DayCountDown" type="Timer" parent="."]
+wait_time = 2.0
 autostart = true
 
 [node name="DayEndAudio" type="AudioStreamPlayer" parent="."]

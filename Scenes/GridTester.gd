@@ -158,7 +158,7 @@ func _on_DayCountDown_timeout():
 			day_end_audio.play()
 			num_times_horn_played += 1
 		
-		if Globals.time_left <= -10 and visible == true:
+		if Globals.time_left <= -5 and visible == true:
 			emit_signal("on_timeout")
 
 
