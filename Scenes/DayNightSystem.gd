@@ -2,11 +2,13 @@ extends Node2D
 
 onready var grid_tester = $GridTester
 onready var home = $Home
+onready var game_over = $GameOver
 onready var home_audio : AudioStreamPlayer = $HomeAudio
 
 enum State {
 	Work,
-	Home
+	Home,
+	GameOver
 }
 
 var current_state = State.Work
@@ -23,23 +25,41 @@ func _process(delta):
 		grid_tester.camera.current = true
 		home.visible = false
 		home.camera.current = false
-		
 	elif current_state == State.Home:
 		grid_tester.visible = false
 		grid_tester.camera.current = false
 		home.visible = true
 		home.camera.current = true
+	elif current_state == State.GameOver:
+		grid_tester.visible = false
+		grid_tester.camera.current = false
+		home.visible = false
+		home.camera.current = false
+		game_over.visible = true
+		game_over.camera.current = true
+
+func log_poopy_situation():
+	for unit in get_tree().get_nodes_in_group("unit"):
+		if unit.num_poop > 0:
+			Globals.event_log_poopy(unit.unit_name)
+
 
 func _on_GridTester_on_timeout():
+	log_poopy_situation()
 	current_state = State.Home
 	grid_tester.pause()
 	home_audio.play()
 	home.reset()
 	get_tree().call_group("day_audio", "stop")
+	
 
 func _on_Home_on_exit():
-	current_state = State.Work
-	Globals.day_event_log = []
-	Globals.day_count += 1
-	home_audio.stop()	
-	grid_tester.init()
+	home_audio.stop()
+	if Globals.day_count == 1 and Globals.money <= 0:
+		current_state = State.GameOver
+		game_over.reason = "day1"
+	else:
+		current_state = State.Work
+		Globals.day_event_log = []
+		Globals.day_count += 1
+		grid_tester.init()

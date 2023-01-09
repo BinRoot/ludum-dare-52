@@ -1,11 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/GridTester.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Grid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Resources/UIFont1.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Assets/Audio/End of Work.mp3" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sprites/pxArt.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Audio/Lights Out.mp3" type="AudioStream" id=6]
 
 [node name="GridTester" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="Background" type="TextureRect" parent="."]
+margin_left = -512.0
+margin_top = -336.0
+margin_right = -3.0
+margin_bottom = 3.0
+rect_scale = Vector2( 4, 4 )
+texture = ExtResource( 5 )
 
 [node name="Grid" parent="." instance=ExtResource( 2 )]
 
@@ -36,8 +47,17 @@ custom_fonts/font = ExtResource( 3 )
 [node name="DayCountDown" type="Timer" parent="."]
 autostart = true
 
+[node name="DayEndAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="LightsOutTween" type="Tween" parent="."]
+
+[node name="LightsOutAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
 [connection signal="on_feed" from="Grid" to="." method="_on_Grid_on_feed"]
 [connection signal="on_grid_changed" from="Grid" to="." method="_on_Grid_on_grid_changed"]
 [connection signal="on_harvest" from="Grid" to="." method="_on_Grid_on_harvest"]
 [connection signal="on_purchased" from="Grid" to="." method="_on_Grid_on_purchased"]
 [connection signal="timeout" from="DayCountDown" to="." method="_on_DayCountDown_timeout"]
+[connection signal="finished" from="DayEndAudio" to="." method="_on_DayEndAudio_finished"]

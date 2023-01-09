@@ -22,9 +22,23 @@ func _process(delta):
 	var is_non_occupied_available = false
 	for unit in units:
 		is_non_occupied_available = is_non_occupied_available or unit.current_state != unit.State.OCCUPIED
-	if Globals.money >= Globals.cost_grid_unit and not is_non_occupied_available and num_units < 9:
-		increment_num_units(true)
-		emit_signal("on_grid_changed")
+	# count how many locked things i have
+	
+	var num_locked_cells = 0
+	for cells in get_tree().get_nodes_in_group("unit"):
+		if cells.is_locked:
+			num_locked_cells += 1
+	if num_locked_cells <= 0 and num_units < 9:
+		if num_units == 1 and Globals.money >= Globals.cost_grid_unit:
+			increment_num_units(true)
+			emit_signal("on_grid_changed")
+		elif num_units > 1:
+			increment_num_units(true)
+			emit_signal("on_grid_changed")
+			
+#	if (Globals.money >= Globals.cost_grid_unit and num_units == 1 or num_units > 1) and not is_non_occupied_available and num_units < 9:
+#		increment_num_units(true)
+#		emit_signal("on_grid_changed")
 
 func set_size(_new_size):
 	push_warning("cannot set Grid size")
@@ -92,4 +106,5 @@ func set_num_units(new_num_units):
 		for i in range(new_num_units):
 			add_grid_unit(i)
 	num_units = new_num_units
+	Globals.num_units = new_num_units
 	resume_audio()

@@ -1,9 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/Home.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/FamilyMember.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Resources/UIFont1.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Assets/Audio/Click Sound.mp3" type="AudioStream" id=3]
 [ext_resource path="res://Assets/Sprites/canvas.png" type="Texture" id=4]
+[ext_resource path="res://Resources/CoolFont.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFontData" id=4]
+antialiased = false
+font_path = "res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 150
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_char = 2
+font_data = ExtResource( 6 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 20.0
@@ -45,46 +64,54 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -40.0
-margin_top = 208.0
-margin_right = 40.0
-margin_bottom = 232.0
-custom_fonts/font = ExtResource( 3 )
+margin_top = 200.0
+margin_right = 187.0
+margin_bottom = 259.0
+custom_fonts/font = SubResource( 5 )
 text = "Sleep"
 
 [node name="FamilyMember" parent="Control" instance=ExtResource( 2 )]
-margin_left = -352.0
-margin_top = -256.0
-margin_right = -352.0
-margin_bottom = -256.0
+margin_left = -360.0
+margin_top = -208.0
+margin_right = -360.0
+margin_bottom = -208.0
 character = "wife"
 
 [node name="FamilyMember2" parent="Control" instance=ExtResource( 2 )]
-margin_left = -352.0
-margin_top = -112.0
-margin_right = -352.0
-margin_bottom = -112.0
+margin_left = -360.0
+margin_top = -64.0
+margin_right = -360.0
+margin_bottom = -64.0
 character = "girl"
 
 [node name="FamilyMember3" parent="Control" instance=ExtResource( 2 )]
-margin_left = -352.0
-margin_top = 32.0
-margin_right = -352.0
-margin_bottom = 32.0
+margin_left = -360.0
+margin_top = 80.0
+margin_right = -360.0
+margin_bottom = 80.0
 character = "boy"
 
+[node name="MoneyBackground" type="Button" parent="Control"]
+margin_left = -8.0
+margin_top = -216.0
+margin_right = 672.0
+margin_bottom = -64.0
+disabled = true
+
 [node name="MoneyLabel" type="Label" parent="Control"]
-margin_left = -448.0
-margin_top = 232.0
-margin_right = -408.0
-margin_bottom = 250.0
-custom_fonts/font = ExtResource( 3 )
+margin_left = 16.0
+margin_top = -208.0
+margin_right = 284.0
+margin_bottom = -76.0
+grow_vertical = 2
+custom_fonts/font = SubResource( 3 )
 text = "$50"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
-margin_top = -256.0
-margin_right = 400.0
-margin_bottom = 144.0
+margin_left = -8.0
+margin_top = -32.0
+margin_right = 496.0
+margin_bottom = 168.0
 custom_styles/bg = SubResource( 1 )
 scroll_horizontal_enabled = false
 
@@ -95,5 +122,18 @@ margin_right = 20.0
 margin_bottom = 20.0
 
 [node name="EventLogHolder" type="VBoxContainer" parent="Control/ScrollContainer/MarginContainer"]
+
+[node name="WelcomeHome" type="Label" parent="."]
+margin_left = -360.0
+margin_top = -280.0
+margin_right = 9.0
+margin_bottom = -232.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Welcome Home"
+uppercase = true
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
 
 [connection signal="pressed" from="Control/Button" to="." method="_on_Button_pressed"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Family Harvest Sound.mp3-bfd4035581cd4d09803bad558955b3f7.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Family Harvest Sound.mp3"
+dest_files=[ "res://.import/Family Harvest Sound.mp3-bfd4035581cd4d09803bad558955b3f7.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

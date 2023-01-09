@@ -16,8 +16,9 @@ func _ready():
 	reset()
 
 func dead():
-	sprite.play("dead")
-	is_dead = true
+	if not is_being_harvested:
+		sprite.play("dead")
+		is_dead = true
 
 func harvest():
 	is_being_harvested = true
@@ -26,8 +27,9 @@ func harvest():
 	blood_sprite.play("default")
 
 func after_hotdog_eaten():
-	sprite.frame = 0
-	sprite.play("after_eat")
+	if not is_being_harvested:
+		sprite.frame = 0
+		sprite.play("after_eat")
 
 func reset():
 	sprite.play("idle_0")

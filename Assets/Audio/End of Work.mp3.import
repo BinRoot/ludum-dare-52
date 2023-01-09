@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/End of Work.mp3-a9e7ce1f8c316ce4bb8285b4ede5308d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/End of Work.mp3"
+dest_files=[ "res://.import/End of Work.mp3-a9e7ce1f8c316ce4bb8285b4ede5308d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

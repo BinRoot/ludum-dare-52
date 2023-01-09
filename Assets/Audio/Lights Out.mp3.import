@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Lights Out.mp3-e0a7ff27d2875bca93bf79d723d933d7.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Lights Out.mp3"
+dest_files=[ "res://.import/Lights Out.mp3-e0a7ff27d2875bca93bf79d723d933d7.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

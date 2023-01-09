@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/END OF GAME.mp3-e0d2ed297ff8acbb75f5b1d524b84922.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/END OF GAME.mp3"
+dest_files=[ "res://.import/END OF GAME.mp3-e0d2ed297ff8acbb75f5b1d524b84922.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
