@@ -15,6 +15,7 @@ func _ready():
 	rng.randomize()
 	reset()
 
+
 func dead():
 	if not is_being_harvested:
 		sprite.play("dead")
@@ -33,6 +34,8 @@ func after_hotdog_eaten():
 
 func reset():
 	sprite.play("idle_0")
+	is_being_harvested = false
+	is_dead = false
 
 func set_color(color):
 	sprite.modulate = color
