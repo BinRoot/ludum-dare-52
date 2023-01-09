@@ -55,6 +55,8 @@ stream = ExtResource( 4 )
 [node name="LightsOutAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 
+[node name="MoneyTween" type="Tween" parent="."]
+
 [connection signal="on_feed" from="Grid" to="." method="_on_Grid_on_feed"]
 [connection signal="on_grid_changed" from="Grid" to="." method="_on_Grid_on_grid_changed"]
 [connection signal="on_harvest" from="Grid" to="." method="_on_Grid_on_harvest"]
