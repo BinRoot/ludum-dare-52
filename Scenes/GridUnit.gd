@@ -50,6 +50,7 @@ var is_new = false
 var cost_replenish = Globals.cost_replenish
 var is_locked : bool = false
 var is_hotdog_eating : bool = false
+var is_harvest_ever_clicked : bool = false
 
 var num_poop : int = 0
 var names = ["Stevo", "Buzzly", "Ferret", "Pinecone", "Biscult", "Quaxter", 
@@ -62,6 +63,7 @@ func _ready():
 
 func harvest():
 	harvest_sfx.play()
+	is_harvest_ever_clicked = true
 	emit_signal("on_harvest_attempted", harvest_earning)
 	prisoner.harvest()
 	current_state = State.HARVESTING
@@ -136,6 +138,8 @@ func _on_FeedButton_pressed():
 		feed()
 	else:
 		wrong_sfx.play()
+		for poop in get_tree().get_nodes_in_group("poop"):
+			poop.shake()
 
 func _on_HarvestButton_pressed():
 	if num_poop == 0:
@@ -143,13 +147,18 @@ func _on_HarvestButton_pressed():
 		harvest()
 	else:
 		wrong_sfx.play()
+		for poop in get_tree().get_nodes_in_group("poop"):
+			poop.shake()
 
 
 func _on_RespawnTimer_timeout():
 	reset()
 	
 func reset():
-	health = Globals.init_health
+	if not is_harvest_ever_clicked:
+		health = 65
+	else:
+		health = rng.randi_range(Globals.init_health - 30, Globals.init_health)
 	num_poop = 0
 	prisoner.reset()
 	

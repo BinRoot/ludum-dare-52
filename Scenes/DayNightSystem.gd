@@ -55,7 +55,11 @@ func _on_GridTester_on_timeout():
 
 func _on_Home_on_exit():
 	home_audio.stop()
-	if Globals.day_count == 1 and Globals.money <= 0:
+	var is_found = Globals.is_harvestable_found()
+	if Globals.day_count == 1 and Globals.money <= 0 and not is_found:
+		current_state = State.GameOver
+		game_over.reason = "day1"
+	elif Globals.day_count > 1 and Globals.money <= 0 and not is_found:
 		current_state = State.GameOver
 		game_over.reason = "day1"
 	else:

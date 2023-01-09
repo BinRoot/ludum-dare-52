@@ -57,13 +57,13 @@ func update_camera(is_instant = false):
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		camera_tween.start()
 	time_left_label.rect_position = Vector2(
-		-1 * time_left_label.rect_size.x / 2,
-		-new_position.y - 20
+		-1 * money_label.rect_size.x / 2 + 200,
+		new_position.y 
 	)
 	time_left_label.get("custom_fonts/font").size = new_zoom.x * 35
 	money_label.rect_position = Vector2(
-		-1 * money_label.rect_size.x / 2,
-		new_position.y + 5
+		-1 * money_label.rect_size.x / 2 - 200,
+		new_position.y 
 	)
 	money_label.get("custom_fonts/font").size = new_zoom.x * 35
 	
@@ -87,14 +87,7 @@ func _process(delta):
 	money_label.text = "${0}".format([Globals.money])
 	time_left_label.text = "{0}".format([max(0, Globals.time_left)])
 	
-	var num_potential_hotdogs = int(Globals.money / Globals.cost_feed)
-	var hp_potential_heal = num_potential_hotdogs * Globals.feed_heal
-	
-	var is_found = false
-	for unit in get_tree().get_nodes_in_group("unit"):
-		if hp_potential_heal >= Globals.min_health_for_harvest - unit.health:
-			is_found = true
-			break
+	var is_found = Globals.is_harvestable_found()
 	if not is_found and not is_already_quitting:
 		is_already_quitting = true
 		Globals.time_left = 2

@@ -3,6 +3,7 @@ extends Node2D
 export(String, "day1") var reason
 onready var descripiton : Label = $Description
 onready var camera : Camera2D = $Camera2D
+onready var dayx_label : Label = $DayX
 
 func _ready():
 	pass # Replace with function body.
@@ -11,7 +12,8 @@ func _ready():
 func _process(delta):
 	if reason == "day1":
 		descripiton.text = "With no money left for resources, your family eventually starved."
-
+	
+	dayx_label.text = "You made it to day {0}".format([Globals.day_count])
 
 func _on_Restart_pressed():
 	get_tree().reload_current_scene()
